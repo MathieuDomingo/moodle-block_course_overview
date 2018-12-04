@@ -77,10 +77,40 @@ class main implements renderable, templatable {
      */
     private function process_tab($output, $favtab, $tab) {
 
+        global $USER;
         // Add extra info (and make zero indexed).
         $courselist = [];
         foreach ($tab->sortedcourses as $course) {
             $course->link = new \moodle_url('/course/view.php', array('id' => $course->id));
+            
+            if (has_all_capabilities(array('moodle/course:visibility', 'moodle/course:viewhiddencourses'), \context_course::instance($course->id))) {
+                $course->hasvisibilitycapabilities=true;
+                if($course->visible){
+                    $course->visibilityicon="fa-eye-slash";
+                    $course->visibilityalt=get_string('hide');
+                    $course->visibilityaction='hide';
+                }
+                else{
+                    $course->visibilityicon="fa-eye";
+                    $course->visibilityalt=get_string('show');
+                    $course->visibilityaction='show';
+                }
+            }
+
+            if (has_capability('moodle/course:update', \context_course::instance($course->id))) {
+                $course->haseditcapability=true;
+                $course->editlink = new \moodle_url('/course/edit.php', array('id' => $course->id));
+                $course->editicon = "fa-cog";
+                $course->editalt = get_string('edit'); 
+            }
+
+            if (has_capability('moodle/course:delete', \context_course::instance($course->id))) {
+                $course->hasdeletecapability=true;
+                $course->deletelink = new \moodle_url('/course/delete.php', array('id' => $course->id));
+                $course->deleteicon = "fa-trash";
+                $course->deletealt = get_string('delete'); 
+            }
+            
             $course->categories = implode(' / ', $this->categories($course->category));
             if (in_array($course->id, $this->favourites)) {
                 $course->favouritelink = new \moodle_url('/my', array('unfavourite' => $course->id));

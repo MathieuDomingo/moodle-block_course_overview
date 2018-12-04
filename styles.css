@@ -53,7 +53,7 @@ a.favourite_icon:hover {
 }
 
 div.courseovbox {
-    margin-left: -15px !important;
+    margin-left: 15px !important;
 }
 
 .course-overview-dialog .ui-dialog-titlebar button{
@@ -67,4 +67,9 @@ div.courseovbox {
 .course-overview-dialog .ui-dialog-titlebar-close::after{
     top: 1px;
     left: 1px;
+}
+
+.block-course-overview .visibility_icon {
+    cursor: pointer;
+    color:#2698D0
 }

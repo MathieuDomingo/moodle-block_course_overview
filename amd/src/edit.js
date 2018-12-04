@@ -29,7 +29,7 @@ define(['jquery', 'jqueryui'], function($, UI) {
         init: function() {
 
             // Change non-js links to be inactive.
-            $(".courseovbox a").removeAttr("href");
+            //$(".courseovbox a").removeAttr("href");
 
             // Make the course list sort.
             $(".tab-pane .course-list").sortable({

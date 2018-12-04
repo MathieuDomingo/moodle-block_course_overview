@@ -76,18 +76,20 @@
     </div>
 </div>
 
-{{# isediting }}
     {{# js }}
         require(['jquery', 'block_course_overview/edit'], function($, Edit) {
             Edit.init();
         });
     {{/ js }}
-{{/ isediting }}
-{{^ isediting }}
     {{# js }}
         require(['jquery', 'block_course_overview/popup'], function($, Popup) {
             Popup.init({{ viewingfavourites }});
         });
     {{/ js }}
-{{/ isediting }}
+
+    {{# js }}
+        require(['jquery', 'block_course_overview/changevisibility'], function($, Changevisibility) {
+            Changevisibility.init();
+        });
+    {{/ js }}
 

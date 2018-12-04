@@ -25,17 +25,26 @@
 <div class="course-list container-fluid">
     {{# data }}
         <div id="course-{{ id }}" class="row courseovbox lead">
-            <div class="col-sm-1 span1">
-                {{# isediting }}
+            <div class="col-sm-2 span2">
                     <i class="icon fa fa-fw fa-arrows cursor" title="{{# str }}movecourse, block_course_overview, {{ fullname }}{{/ str }}"></i>
-                {{/ isediting }}
-                {{^ isediting }}
                     <a href="{{ favouritelink }}" class="favourite_icon text-primary" alt="{{ favouritealt }}">
                         <i class="icon fa fa-fw {{ favouriteicon }} " title="{{ favouritealt }}"></i>
                     </a>
-                {{/ isediting }}
+                    {{# hasvisibilitycapabilities}}
+                        <i class="icon fa fa-fw {{ visibilityicon }} visibility_icon" title="{{ visibilityalt }}" data-id="{{id}}" data-action="{{visibilityaction}}"></i>
+                    {{/ hasvisibilitycapabilities}}
+                    {{# haseditcapability}}
+                        <a href="{{ editlink }}" class="edit_icon text-primary" alt="{{ editalt }}">
+                            <i class="icon fa fa-fw {{ editicon }} " title="{{ editalt }}"></i>
+                        </a>
+                    {{/ haseditcapability}}
+                    {{# hasdeletecapability}}
+                        <a href="{{ deletelink }}" class="delete_icon text-primary" alt="{{ deletealt }}">
+                            <i class="icon fa fa-fw {{ deleteicon }} " title="{{ deletealt }}"></i>
+                        </a>
+                    {{/ hasdeletecapability}}
             </div>
-            <div class="col-sm-8 span8">
+            <div class="col-sm-7 span7">
                 <strong><a {{^ visible }}class="dimmed"{{/ visible }} href="{{ link }}">{{ fullname }}</a></strong><br />
                 <small>{{ categories }}</small>
             </div>
