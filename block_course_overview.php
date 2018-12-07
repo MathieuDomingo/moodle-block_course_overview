@@ -127,6 +127,91 @@ class block_course_overview extends block_base {
         $this->content->text .= $renderer->render($main);
         return $this->content;
     }
+    
+        /**
+     * Return contents of course_overview block
+     *
+     * @return stdClass contents of block
+     */
+    public function get_content_to_render() {
+        global $USER, $CFG, $DB, $SESSION;
+
+        require_once($CFG->dirroot.'/blocks/course_overview/locallib.php');
+        require_once($CFG->dirroot.'/user/profile/lib.php');
+
+        if ($this->content !== null) {
+            return $this->content;
+        }
+
+        $config = get_config('block_course_overview');
+
+        $this->content = new stdClass();
+        $this->content->text = '';
+        $this->content->footer = '';
+
+        $content = array();
+
+        $isediting = $this->page->user_is_editing();
+
+        $updatemynumber = optional_param('mynumber', -1, PARAM_INT);
+        if ($updatemynumber >= 0 && optional_param('sesskey', '', PARAM_RAW) && confirm_sesskey()) {
+            block_course_overview_update_mynumber($updatemynumber);
+        }
+
+        profile_load_custom_fields($USER);
+
+        // Check if favourite added/removed.
+        $favourite = optional_param('favourite', 0, PARAM_INT);
+        if ($favourite) {
+            block_course_overview_add_favourite($favourite);
+        }
+        $unfavourite = optional_param('unfavourite', 0, PARAM_INT);
+        if ($unfavourite) {
+            block_course_overview_remove_favourite($unfavourite);
+        }
+
+        // Check if sortorder updated.
+        $soparam = optional_param('sortorder', -1, PARAM_INT);
+        if ($soparam == -1) {
+            $sortorder = block_course_overview_get_sortorder();
+        } else {
+            $sortorder = $soparam;
+            block_course_overview_update_sortorder($sortorder);
+        }
+
+        // Get data for favourites and course tab.
+        $tabs = array();
+        $ftab = new stdClass;
+        $ftab->tab = 'favourites';
+        list($ftab->sortedcourses, $ftab->sitecourses, $ftab->totalcourses) = block_course_overview_get_sorted_courses(true);
+        $ftab->overviews = block_course_overview_get_overviews($ftab->sortedcourses);
+        $ctab = new stdClass;
+        $ctab->tab = 'courses';
+        list($ctab->sortedcourses, $ctab->sitecourses, $ctab->totalcourses)
+            = block_course_overview_get_sorted_courses(false, $config->keepfavourites, array_keys($ftab->sortedcourses));
+        $ctab->overviews = block_course_overview_get_overviews($ctab->sortedcourses);
+        $tabs = array(
+            'favourites' => $ftab,
+            'courses' => $ctab,
+        );
+
+        // Get list of favourites.
+        $favourites = array_keys($ftab->sortedcourses);
+
+        // Default tab. One with something in it or selected default.
+        if (($config->defaulttab == BLOCKS_COURSE_OVERVIEW_DEFAULT_FAVOURITES) && $ftab->totalcourses) {
+            $tab = 'favourites';
+        } else {
+            $tab = 'courses';
+        }
+
+        $renderer = $this->page->get_renderer('block_course_overview');
+
+        // Render block.
+        $main = new block_course_overview\output\main($config, $tabs, $isediting, $tab, $sortorder, $favourites);
+        return $main->export_for_template($renderer);
+
+    }
 
     /**
      * Allow the block to have a configuration page

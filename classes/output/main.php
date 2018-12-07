@@ -82,6 +82,7 @@ class main implements renderable, templatable {
         $courselist = [];
         foreach ($tab->sortedcourses as $course) {
             $course->link = new \moodle_url('/course/view.php', array('id' => $course->id));
+            //error_log($course->link);
             
             if (has_all_capabilities(array('moodle/course:visibility', 'moodle/course:viewhiddencourses'), \context_course::instance($course->id))) {
                 $course->hasvisibilitycapabilities=true;
@@ -223,6 +224,8 @@ class main implements renderable, templatable {
                 ],
         );
 
+        //error_log(var_export($tabs));
+        
         return [
             'tabs' => $tabs,
             'isediting' => $this->isediting,

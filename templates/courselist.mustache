@@ -20,7 +20,20 @@
     This template renders the course list for the course_overview block
 
     Example context (json):
-    {}
+    {
+        "data":[
+            {
+                "id":1,
+                "favouritelink":"google.com",
+                "favouritealt":"google.com",
+                "favouriteicon":"fa-eye"
+            },
+            {
+                "id":2
+            }
+        ]
+
+    }
 }}
 <div class="course-list container-fluid">
     {{# data }}

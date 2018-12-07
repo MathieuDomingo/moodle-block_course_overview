@@ -31,8 +31,11 @@ require_once($CFG->dirroot.'/course/lib.php');
 require_sesskey();
 require_login();
 
+$PAGE->set_context(context_system::instance());
+
 $action = required_param('action', PARAM_ALPHA);
 $courseid = required_param('id', PARAM_INT);
+$block_instanceid = required_param('block_instanceid', PARAM_INT);
 
 if ($courseid) {
     $record = get_course($courseid);
@@ -41,12 +44,35 @@ if ($courseid) {
 
 switch ($action) {
     case 'show' :
+        error_log("show");
         \core_course\management\helper::action_course_show($course);
         break;
     case 'hide' :
+        error_log("hide");
         \core_course\management\helper::action_course_hide($course);
         break;
 }
 
+$blockinstance= block_instance_by_id($block_instanceid);
 
+//variante 1 
+echo json_encode($blockinstance->get_content());
 
+//variante 2 : 
+/*
+$test= $blockinstance->get_content_to_render();
+error_log(var_export($test,true));
+error_log(json_encode($test));
+echo json_encode($test);
+*/
+
+/*
+
+echo'{
+    "isediting": true,
+    "uniqid":1,
+    "viewingfavourites":1
+}
+';
+ 
+ */
