@@ -285,17 +285,20 @@ function block_course_overview_add_favourite($favourite) {
     // Add to fabourites list.
     $favourites = block_course_overview_get_favourites();
     if (!in_array($favourite, $favourites)) {
-        array_unshift($favourites, $favourite);
+        //array_unshift($favourites, $favourite);
+        $favourites[]=$favourite;
     }
     block_course_overview_update_favourites($favourites);
 
     // Remove from courses list.
+    /*
     $order = block_course_overview_get_myorder();
     $key = array_search($favourite, $order);
     if ($key !== false) {
         unset($order[$key]);
     }
     block_course_overview_update_myorder($order);
+     */
 }
 
 /**
@@ -312,10 +315,12 @@ function block_course_overview_remove_favourite($favourite) {
     }
     block_course_overview_update_favourites($order);
 
+    /*
     // Add to courses list.
     $order = block_course_overview_get_myorder();
     if (!in_array($favourite, $order)) {
         $order[] = $favourite;
     }
     block_course_overview_update_myorder($order);
+     */
 }

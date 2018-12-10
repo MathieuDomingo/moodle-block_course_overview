@@ -36,13 +36,13 @@
     {{/ isediting }}
 
     <ul id="block-course-overview-view-choices-{{ uniqid }}" class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link {{# viewingfavourites }}active{{/ viewingfavourites }}" href="#favourites" role="tab" data-toggle="tab" data-tabname="favourites">
+        <li class="nav-item {{# viewingfavourites }}active{{/ viewingfavourites }}" data-tabname="favourites">
+            <a class="nav-link" href="#favourites" role="tab" data-toggle="tab">
                 {{# str }}favourites, block_course_overview{{/ str }}
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link {{^ viewingfavourites }}active{{/ viewingfavourites }}" href="#courses" role="tab" data-toggle="tab" data-tabname="courses">
+        <li class="nav-item {{^ viewingfavourites }}active{{/ viewingfavourites }}" data-tabname="courses">
+            <a class="nav-link" href="#courses" role="tab" data-toggle="tab">
                 {{# str }}courses{{/ str }}
             </a>
         </li>

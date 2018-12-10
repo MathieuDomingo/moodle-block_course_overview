@@ -36,6 +36,7 @@ $PAGE->set_context(context_system::instance());
 $action = required_param('action', PARAM_ALPHA);
 $courseid = required_param('id', PARAM_INT);
 $block_instanceid = required_param('block_instanceid', PARAM_INT);
+$current_tab = required_param('current_tab', PARAM_ALPHA);
 
 if ($courseid) {
     $record = get_course($courseid);
@@ -54,7 +55,8 @@ switch ($action) {
 }
 
 $blockinstance= block_instance_by_id($block_instanceid);
-
+$blockinstance->current_tab=$current_tab;
+//error_log(var_export($blockinstance,true));
 //variante 1 
 echo json_encode($blockinstance->get_content());
 

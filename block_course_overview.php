@@ -113,6 +113,12 @@ class block_course_overview extends block_base {
         // Get list of favourites.
         $favourites = array_keys($ftab->sortedcourses);
 
+        //keep current_tab if exist
+        if (property_exists($this, 'current_tab'))
+        {
+            $tab=$this->current_tab;
+        }
+        else        
         // Default tab. One with something in it or selected default.
         if (($config->defaulttab == BLOCKS_COURSE_OVERVIEW_DEFAULT_FAVOURITES) && $ftab->totalcourses) {
             $tab = 'favourites';
