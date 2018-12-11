@@ -53,6 +53,8 @@ class block_course_overview extends block_base {
 
         require_once($CFG->dirroot.'/blocks/course_overview/locallib.php');
         require_once($CFG->dirroot.'/user/profile/lib.php');
+        require_once($CFG->dirroot.'/lib/coursecatlib.php');
+        require_once($CFG->dirroot.'/course/lib.php');
 
         if ($this->content !== null) {
             return $this->content;
@@ -84,6 +86,21 @@ class block_course_overview extends block_base {
         if ($unfavourite) {
             block_course_overview_remove_favourite($unfavourite);
         }
+        
+        // Check if visibility changed (can happen if javascript is disabled)
+        $show = optional_param('show', 0, PARAM_INT);
+        if ($show) {
+            $record = get_course($show);
+            $course = new \course_in_list($record);
+            \core_course\management\helper::action_course_show($course);
+        }
+        $hide = optional_param('hide', 0, PARAM_INT);
+        if ($hide) {
+            $record = get_course($hide);
+            $course = new \course_in_list($record);
+            \core_course\management\helper::action_course_hide($course);
+        }
+        
 
         // Check if sortorder updated.
         $soparam = optional_param('sortorder', -1, PARAM_INT);

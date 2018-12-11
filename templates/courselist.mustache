@@ -40,11 +40,13 @@
         <div id="course-{{ id }}" class="row courseovbox lead">
             <div class="col-sm-2 span2">
                     <i class="icon fa fa-fw fa-arrows cursor" title="{{# str }}movecourse, block_course_overview, {{ fullname }}{{/ str }}"></i>
-                    <a href="{{ favouritelink }}" class="favourite_icon text-primary" alt="{{ favouritealt }}">
+                    <a href="{{ favouritelink }}" class="favourite_icon text-primary" alt="{{ favouritealt }}" data-id="{{id}}" data-action="{{favouriteaction}}">
                         <i class="icon fa fa-fw {{ favouriteicon }} " title="{{ favouritealt }}"></i>
                     </a>
                     {{# hasvisibilitycapabilities}}
-                        <i class="icon fa fa-fw {{ visibilityicon }} visibility_icon" title="{{ visibilityalt }}" data-id="{{id}}" data-action="{{visibilityaction}}"></i>
+                        <a href="{{ visibilitylink }}" class="visibility_icon text-primary" alt="{{ visibilityalt }}" data-id="{{id}}" data-action="{{visibilityaction}}">
+                            <i class="icon fa fa-fw {{ visibilityicon }} " title="{{ visibilityalt }}" ></i>
+                        </a>                    
                     {{/ hasvisibilitycapabilities}}
                     {{# haseditcapability}}
                         <a href="{{ editlink }}" class="edit_icon text-primary" alt="{{ editalt }}">

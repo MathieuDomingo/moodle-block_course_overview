@@ -25,8 +25,6 @@ define('AJAX_SCRIPT', true);
 
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
-require_once($CFG->dirroot.'/lib/coursecatlib.php');
-require_once($CFG->dirroot.'/course/lib.php');
 
 require_sesskey();
 require_login();
@@ -38,41 +36,16 @@ $courseid = required_param('id', PARAM_INT);
 $block_instanceid = required_param('block_instanceid', PARAM_INT);
 $current_tab = required_param('current_tab', PARAM_ALPHA);
 
-if ($courseid) {
-    $record = get_course($courseid);
-    $course = new \course_in_list($record);
-}
-
 switch ($action) {
-    case 'show' :
-        \core_course\management\helper::action_course_show($course);
+    case 'favourite' :
+        block_course_overview_add_favourite($courseid);
         break;
-    case 'hide' :
-        \core_course\management\helper::action_course_hide($course);
+    case 'unfavourite' :
+        block_course_overview_remove_favourite($courseid);
         break;
 }
 
 $blockinstance= block_instance_by_id($block_instanceid);
 $blockinstance->current_tab=$current_tab;
 
-//variante 1 
 echo json_encode($blockinstance->get_content());
-
-//variante 2 : 
-/*
-$test= $blockinstance->get_content_to_render();
-error_log(var_export($test,true));
-error_log(json_encode($test));
-echo json_encode($test);
-*/
-
-/*
-
-echo'{
-    "isediting": true,
-    "uniqid":1,
-    "viewingfavourites":1
-}
-';
- 
- */

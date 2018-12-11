@@ -89,11 +89,13 @@ class main implements renderable, templatable {
                     $course->visibilityicon="fa-eye-slash";
                     $course->visibilityalt=get_string('hide');
                     $course->visibilityaction='hide';
+                    $course->visibilitylink=new \moodle_url('/my', array('hide' => $course->id));
                 }
                 else{
                     $course->visibilityicon="fa-eye";
                     $course->visibilityalt=get_string('show');
                     $course->visibilityaction='show';
+                    $course->visibilitylink=new \moodle_url('/my', array('show' => $course->id));
                 }
             }
 
@@ -116,10 +118,12 @@ class main implements renderable, templatable {
                 $course->favouritelink = new \moodle_url('/my', array('unfavourite' => $course->id));
                 $course->favouriteicon = 'fa-star';
                 $course->favouritealt = get_string('unfavourite', 'block_course_overview');
+                $course->favouriteaction='unfavourite';
             } else {
                 $course->favouritelink = new \moodle_url('/my', array('favourite' => $course->id));
                 $course->favouriteicon = 'fa-star-o';
                 $course->favouritealt = get_string('makefavourite', 'block_course_overview');
+                $course->favouriteaction='favourite';
             }
             if (!empty($tab->overviews[$course->id])) {
                 $course->hasoverviews = true;
