@@ -1,3 +1,5 @@
+Archived : No longer work with moodle 3.9
+
 Course overview (legacy) block for Moodle
 =========================================
 
